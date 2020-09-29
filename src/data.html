@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DATA</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <!-- Using internal CSS because there's not much to style-->
+        <style> 
+            body {
+                background-color: rgba(47, 161, 196, 0.808);
+                color: white;
+                font-size: large;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1></h1>
+        <div id="content" style="color: white; text-align: center;"></div>
+
+        <!-- CREATING TABLE FOR DATA TO BE STORED IN LATER-->
+        <table class="table table-bordered table-striped" id="crime_table">
+            <tr style="font-size:large; font-weight:bolder; text-align: center;">
+                <th>BOROUGH</th>
+                <th>LOCATION DESCRIPTION</th>
+                <th>DATE AND TIME</th>
+            </tr>
+        </table>
+
+
+        <!--CODE QUERYING API DATA, PARSING IN JSON, AND ADDING TO TABLE -->
+        <script>
+            $(document).ready(function(){
+                $.getJSON("https://data.cityofnewyork.us/resource/833y-fsy8.json", function(data){
+                    var crime_data = '';
+                    $.each(data,function(key,value){
+                        crime_data += '<tr>';
+                        crime_data += '<td>'+value.boro+'</td>';
+                        crime_data += '<td>'+value.location_desc+'</td>';
+                        crime_data += '<td>'+value.occur_date+" ------------ "+value.occur_time+'</td>';
+                        crime_data += '</td>';
+                    });
+                    $('#crime_table').append(crime_data);
+                });
+            });    
+            </script>
+
+
+
+        <!-- FIRST ATTEMPT AT QUERYING THE DATA : DISPLAYS RAW DATA (unorganized) 
+            <script defer>
+            fetch("https://data.cityofnewyork.us/resource/833y-fsy8.json")
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                data.forEach((element) => {
+                  let p = document.createElement("p");
+                  p.innerText = element.boro.toUpperCase();
+                  console.log(p.innerText);
+                  document.getElementById("content").appendChild(p).style.border = "";
+                  console.count();
+                });
+              });
+              
+          </script> -->
+    </body>
+</html>
